@@ -14,8 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from weather import views
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import permissions
+
+
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register(r'', views.UserViewSet, basename='user')
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Weather Forecast  API",
+        default_version='v1',
+        description="Weather Forecast API",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('weather/', include('weather.urls')),
+    path('user', include(router.urls)),
+    path('', schema_view.with_ui('swagger')),
 ]

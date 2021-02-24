@@ -5,7 +5,7 @@
 
 ## How to run?
 ```sh
-$ docker-compose up -d
+$ docker-compose up --build
 ```
 
 ## API Documentation
